@@ -18,6 +18,7 @@ var UsersModel = db.model('Users', UsersSchema);
 
 /* GET home page. */
 router.get('/', function(req, res) {
+    console.log(11111111);
     if (req.session.user) {
         res.render('index', { title: '首页', is_login: true, username: req.session.user.username});
     }else{
