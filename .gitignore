@@ -1,6 +1,7 @@
 # User Folder
 node_modules
 bower_components
+data
 
 # Windows image file caches
 Thumbs.db
