@@ -1,0 +1,22 @@
+{
+  "name": "hello-world",
+  "description": "",
+  "main": "",
+  "authors": [
+    "azdbaaaaaa <359835724@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/azdbaaaaaa/MyNodeProj",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-fileinput": "^4.3.5",
+    "bootstrap": "^3.3.7"
+  }
+}

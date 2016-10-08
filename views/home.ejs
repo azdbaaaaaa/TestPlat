@@ -1,0 +1,74 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  	<button type="button" class="btn btn-default btn-lg">
+  	  <span class="glyphicon glyphicon-star"></span> Star
+  	</button>
+  	<span class="glyphicon glyphicon-search"></span>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+
+    <!-- Bootstrap -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	<h1>Welcome</h1>
+  	<div>
+  		<span class="label label-default">Default</span>
+  		<span class="label label-primary">Primary</span>
+  		<span class="label label-success">Success</span>
+  		<span class="label label-info">Info</span>
+  		<span class="label label-warning">Warning</span>
+  		<span class="label label-danger">Danger</span>
+  	</div>
+  	<div class="row">
+  	  <div class="col-lg-6">
+  	    <div class="input-group">
+  	      <input type="text" class="form-control">
+  	      <div class="input-group-btn">
+  	        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Go <span class="caret"></span></button>
+  	        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+  	          <li><a href="#">Action1</a></li>
+  	          <li><a href="#">Action2</a></li>
+  	          <li><a href="#">Action3</a></li>
+  	          <li class="divider"></li>
+  	          <li><a href="#">Separated link</a></li>
+  	        </ul>
+  	      </div><!-- /btn-group -->
+  	    </div><!-- /input-group -->
+  	  </div><!-- /.col-lg-6 -->
+  	</div><!-- /.row -->
+    
+    <ul class="nav nav-pills" role="tablist">
+      <li role="presentation" class="active"><a href="/logout">退出登录</a></li>
+      <li role="presentation"><a href="#">Profile</a></li>
+      <li role="presentation"><a href="#">Messages</a></li>
+    </ul>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <title><%= title %></title>
+
+	  <!-- Bootstrap -->
+	  <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	  <!--[if lt IE 9]>
+	    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	  <![endif]-->
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		    <div class="container">
+		        <div class="navbar-header navbar-left">
+		          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand hidden-sm" href="#">移动测试平台</a>
+		        </div>
+		        <div class="navbar-collapse collapse" role="navigation">
+		          	<ul class="nav navbar-nav">
+			          	<li class="active"><a href="/">首页</a></li>
+			            <li class="dropdown">
+			            	<!-- <a href="/report">报告预览</a> -->
+			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">性能测试 <span class="caret"></span></a>
+			            	<ul class="dropdown-menu" role="menu">
+	            	            <li><a href="/performance/android">Android 性能测试</a></li>
+	            	            <li><a href="/performance/android/report">Android 性能测试报告预览</a></li>
+	            	            <li class="divider"></li>
+	            	            <li><a href="/performance/ios">iOS 性能测试</a></li>
+	            	            <li><a href="/performance/ios/report">iOS 性能测试报告预览</a></li>
+	            	            <li class="divider"></li>
+	            	            <li><a href="#">One more separated link</a></li>
+            	          	</ul>
+			            </li>
+			            <li><a href="/register/" target="_blank">接口Mock测试</a></li>
+	<!-- 		            <li><a href="#">iOS性能测试</a></li>
+			            <li><a href="#" target="_blank">Android性能测试</a></li> -->
+			            <li><a href="#" target="_blank">自动化测试</a></li>
+			            <li><a href="/home/">home页面</a></li>
+		          	</ul>
+		          	<ul class="nav navbar-nav navbar-right hidden" id="logout">
+				        <p class="navbar-text">Signed in as <strong style="color:green"><%= username%></strong></p>
+				        <a type="button" class="navbar-nav btn btn-danger navbar-btn" href="/logout">
+				        	退出登录
+				        </a>
+<!-- 		          <li><a id="logout" class="hidden" href="/logout">Signed in as <strong style="color:green"><%= username%></strong>,退出</a></li>
+		          </ul> -->
+		        </div>
+		    </div>
+		</div>
+		<div class="jumbotron" style="padding-top: 150px;padding-bottom: 100px">
+			<div class="container">
+			  <h1>移动测试平台<a href="//www.mmbang.com" target="_blank">@妈妈帮</a></h1>
+			  <p>This is a simple mobile test platform, including performance test (android & iso); API test with mock; UI automation test.</p>
+			  <p>
+			  	<a id="register" class="btn btn-default btn-lg hidden" href="/register" role="button">注册</a>
+			  	<a id="login" class="btn btn-primary btn-lg hidden" href="/login" role="button">login</a>
+			  </p>
+			</div>
+		</div>
+		<div>
+			<div class="container" style="text-align: center">
+				<div class="row">
+					<div class="col-xs-6 col-sm-4 col-md-4">
+						<h1>为所有开发者、所有应用场景而设计。</h1>
+						<p>Bootstrap让前端开发更快速、简单。所有开发者都能快速上手、所有设备都可以适配。</p>
+					</div>
+					<div class="col-xs-6 col-sm-4 col-md-4">
+						<h1>为所有开发者、所有应用场景而设计。</h1>
+						<p>Bootstrap让前端开发更快速、简单。所有开发者都能快速上手、所有设备都可以适配。</p>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4">
+						<h1>为所有开发者、所有应用场景而设计。</h1>
+						<p>Bootstrap让前端开发更快速、简单。所有开发者都能快速上手、所有设备都可以适配。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- 		<div class="container-fluid">
+			<img src="/static/images/background.png">		
+		</div> -->
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="/jquery/dist/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+	</body>
+	<script type="text/javascript">
+		if (<%= is_login%>) {
+			$('#logout').removeClass('hidden');
+		}else{
+			$('#register').removeClass('hidden');
+			$('#login').removeClass('hidden');
+		}
+	</script>
+
+</html>

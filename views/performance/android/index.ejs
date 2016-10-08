@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <!-- Bootstrap -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- the main fileinput plugin file -->
+    <script src="/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <link href="/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+
+  </head>
+  <body>
+    <div class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header navbar-left">
+              <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand hidden-sm" href="#">移动测试平台</a>
+            </div>
+            <div class="navbar-collapse collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                  <li ><a href="/">首页</a></li>
+                  <li class="dropdown active">
+                    <!-- <a href="/report">报告预览</a> -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">性能测试 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                            <li><a href="/performance/android">Android 性能测试</a></li>
+                            <li><a href="/performance/android/report">Android 性能测试报告预览</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/performance/ios">iOS 性能测试</a></li>
+                            <li><a href="/performance/ios/report">iOS 性能测试报告预览</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                          </ul>
+                  </li>
+                  <li><a href="/register/" target="_blank">接口Mock测试</a></li>
+                  <li><a href="#" target="_blank">自动化测试</a></li>
+                  <li><a href="/home/">home页面</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" id="logout">
+                <p class="navbar-text">Signed in as <strong style="color:green"><%= username%></strong></p>
+                <a type="button" class="navbar-nav btn btn-danger navbar-btn" href="/logout">
+                  退出登录
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav tabs -->
+    <div class="container">
+        <ul class="nav nav-pills" role="tablist" id="tab">
+          <li role="presentation" id="step1" class="active" ><a href="#selectServiceTab">1.选择服务</a></li>
+          <li role="presentation" id="step2"><a href="#selectApkTab">2.选择应用</a></li>
+          <li role="presentation" id="step3"><a href="#selectDeviceTab">3.选择设备</a></li>
+          <li role="presentation" id="step4"><a href="#updateInfoTab">4.补充信息</a></li>
+        </ul>      
+    </div>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- 第一个tab内容 -->
+      <div role="tabpanel" class="tab-pane active" id="selectServiceTab">
+        <div class="container" style="padding-top:10px">
+        <div class="panel panel-primary">
+          <div class="panel-body">
+            <div class="col-lg-3">
+              <div class="thumbnail">
+                <img src="/static/images/csfw_14.png" alt="...">
+                <div class="caption">
+                  <h3>Monkey稳定性测试</h3>
+                  <p>...</p>
+                  <p>
+                    <a href="#" class="btn btn-primary" role="button" onclick="next();">选择</a> 
+                    <!-- <a href="#" class="btn btn-default" role="button">Button</a> -->
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="thumbnail">
+                <img src="/static/images/csfw_14.png" alt="...">
+                <div class="caption">
+                  <h3>Monkey稳定性测试</h3>
+                  <p>...</p>
+                  <p>
+                    <a href="#" class="btn btn-primary" role="button">Button</a> 
+                    <a href="#" class="btn btn-default" role="button">Button</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="thumbnail">
+                <img src="/static/images/csfw_14.png" alt="...">
+                <div class="caption">
+                  <h3>Monkey稳定性测试</h3>
+                  <p>...</p>
+                  <p>
+                    <a href="#" class="btn btn-primary" role="button">Button</a> 
+                    <a href="#" class="btn btn-default" role="button">Button</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="thumbnail">
+                <img src="/static/images/csfw_14.png" alt="...">
+                <div class="caption">
+                  <h3>Monkey稳定性测试</h3>
+                  <p>...</p>
+                  <p>
+                    <a href="#" class="btn btn-primary" role="button">Button</a> 
+                    <a href="#" class="btn btn-default" role="button">Button</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            bbb
+          </div>
+        </div>
+          <!-- <a class="btn btn-primary col-lg-1" role="button" onclick="previous();">上一步</a> 
+          <a class="btn btn-primary col-lg-1 col-lg-offset-10" role="button" onclick="next();">下一步</a>  -->
+        </div>
+      </div> 
+      <!-- 第二个tab内容 -->     
+      <div role="tabpanel" class="tab-pane" id="selectApkTab">
+        <!-- 选择应用的container -->
+        <div class="container" style="padding-top:10px">
+          <div class="panel panel-primary">
+              <div class="panel-heading">
+                选择应用apk包
+              </div>
+              <div class="panel-body">
+                  <div class="form-group">
+                    <!-- <div class="radio col-lg-2">
+                      <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked onclick="useOld();">
+                        使用历史应用
+                      </label>
+                    </div> -->
+                    <div class="col-lg-10 has-success" id="useOld">
+                      <select class="form-control" id="selectApk" onchange="getApkInfo(this.value);">
+                      </select>
+                    </div>
+                    <div class="col-lg-1">
+                      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                        上传新版
+                      </button>
+                      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                              <div class="" id="useNew">
+                                <input id="input" type="file" class="file" data-show-preview="false">
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="getApkList();">Save changes</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <a href="#" class="btn btn-primary">上传新版</a> -->
+                    </div>
+                    <!-- <div class="col-lg-1">
+                      <a href="#" class="btn btn-primary" onclick="next();">确认应用</a>
+                    </div> -->
+                  </div>
+
+                  <div class="form-group" style="padding-top: 30px">
+                    <div class="alert alert-info col-lg-12" role="alert">
+                      <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                      </button>
+                      <div>
+                        <strong>size:</strong><span id="size"></span>
+                        <br>
+                        <strong>versionName:</strong><span id="versionName"></span>
+                        <br>
+                        <strong>packageName:</strong><span id="packageName"></span>
+                        <br>
+                        <strong>versionCode:</strong><span id="versionCode"></span>
+                        <br>
+                        <strong>launchableActivity:</strong><span id="launchableActivity"></span>
+                      </div>
+                    </div>         
+                  </div>
+              </div>
+
+              <div class="panel-footer hidden">
+                  <div class="progress">
+                      <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">
+                          10%
+                      </div>
+                  </div>
+              </div>
+          </div>
+            <a class="btn btn-primary col-lg-1" role="button">上一步</a> 
+            <a class="btn btn-primary col-lg-1 col-lg-offset-10" role="button" onclick="next();">确认应用</a> 
+        </div>
+      </div>
+      <!-- 第三个tab内容 -->
+      <div role="tabpanel" class="tab-pane" id="selectDeviceTab">
+        <!-- 开始测试的container -->
+        <div class="container" style="padding-top:10px">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            可用机型列表11
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <!-- <div class="radio col-lg-2">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked onclick="useOld();">
+                  使用历史应用
+                </label>
+              </div> -->
+              <div class="col-lg-10 has-success" id="useOld">
+                <select class="form-control" id="selectDevice" onchange="getDeviceInfo(this.value);">
+                </select>
+              </div>
+              <!-- <div class="col-lg-1">
+                <a href="#" class="btn btn-primary" onclick="confirm();next();">确认机型</a>
+              </div> -->
+            </div>
+            <div class="form-group" style="padding-top: 30px">
+              <div class="alert alert-info col-lg-12" role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <div>
+                  <strong>phoneAPIVersion:</strong><span id="phoneAPIVersion"></span>
+                  <br>
+                  <strong>phoneBrand:</strong><span id="phoneBrand"></span>
+                  <br>
+                  <strong>phoneModel:</strong><span id="phoneModel"></span>
+                </div>
+              </div>         
+            </div>
+          </div>
+          <div class="panel-footer">
+            ddd
+          </div>
+        </div>
+          <a class="btn btn-primary col-lg-1" role="button" onclick="previous();">上一步</a> 
+          <a class="btn btn-primary col-lg-1 col-lg-offset-10" role="button" onclick="confirm();next();">确认机型</a> 
+        </div>
+      </div>
+      <!-- 第四个tab内容 -->
+      <div role="tabpanel" class="tab-pane" id="updateInfoTab">
+        <!-- 开始测试的container -->
+        <div class="container" style="padding-top:10px">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            补充信息
+          </div>
+          <div class="panel-body">
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">应用名称</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="apkname_confirm" placeholder="妈妈帮" value="妈妈帮">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">应用包</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="selectApk_confirm" placeholder="妈妈帮" value="妈妈帮">
+                </div>
+              </div>              
+              <div class="form-group">
+                <label class="col-sm-2 control-label">应用包大小</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="size_confirm" placeholder="" value="" disabled>
+                </div>
+              </div>              
+              <div class="form-group">
+                <label class="col-sm-2 control-label">应用版本</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="versionName_confirm" placeholder="" value="" disabled>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">包名</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="packageName_confirm" placeholder="" value="" disabled>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">版本备注</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="apkNote_confirm" placeholder="" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">测试备注</label>
+                <div class="col-sm-10">
+                  <textarea type="text" class="form-control textarea" id="testNote_confirm" placeholder="" value=""></textarea> 
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">已选设备</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="selecedDevice_confirm" placeholder="" value="" disabled>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <label class="col-sm-2 control-label">设备版本</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="phoneAPIVersion_confirm" placeholder="" value="" disabled>
+                </div>
+              </div> -->
+            </form>
+            <!-- <a class="btn btn-primary col-lg-1 col-lg-offset-11" role="button" onclick="">开始测试</a> -->
+          </div>
+          <div class="panel-footer">
+            ddd
+          </div>
+        </div>
+          <a class="btn btn-primary col-lg-1" role="button" onclick="previous();">上一步</a> 
+          <a class="btn btn-primary col-lg-1 col-lg-offset-10 disabled" role="button">开始测试</a> 
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+  <script type="text/javascript">
+    function getDeviceList() {
+      $('#selectDevice').empty();
+      var data = {};
+      $.ajax({
+        url: '/api/getDeviceList',
+        type: 'get',
+        data: data,
+        success: function (data, status) {
+          if (status == 'success' && data.success == true) {
+            $('#phoneAPIVersion').text(data.data.detail['phoneAPIVersion']);
+            $('#phoneBrand').text(data.data.detail['phoneBrand']);
+            $('#phoneModel').text(data.data.detail['phoneModel']);
+            for (var i = 0; i < data.data.list.length; i++) {
+              $('#selectDevice').append("<option>" + data.data.list[i] + "</option>");
+            };
+          }
+        }
+      });
+    };
+
+    function getDeviceInfo(deviceName) {
+      var data = {'deviceName': deviceName};
+      $.ajax({
+        url: '/api/getDeviceInfo',
+        type: 'get',
+        data: data,
+        success: function (data, status) {
+          if (status == 'success' && data.success == true) {
+            $('#phoneAPIVersion').text(data.data['phoneAPIVersion']);
+            $('#phoneBrand').text(data.data['phoneBrand']);
+            $('#phoneModel').text(data.data['phoneModel']);
+          }
+        }
+      });
+    };
+
+    function getApkList() {
+      $('#selectApk').empty();
+      $.ajax({
+        url: '/api/getApkList',
+        type: 'get',
+        success: function (data, status) {
+          if (status == 'success' && data.success == true) {
+            $('#size').text(data.data.detail['size']);
+            $('#packageName').text(data.data.detail['packageName']);
+            $('#versionCode').text(data.data.detail['versionCode']);
+            $('#versionName').text(data.data.detail['versionName']);
+            $('#launchableActivity').text(data.data.detail['launchableActivity']);
+            for (var i = 0; i < data.data.list.length; i++) {
+              $('#selectApk').append("<option>" + data.data.list[i] + "</option>");
+            };
+          }
+        }
+      });
+    };
+
+    function getApkInfo(apkName) {
+      var data = {'apkName': apkName};
+      $.ajax({
+        url: '/api/getApkInfo',
+        type: 'get',
+        data: data,
+        success: function (data, status) {
+          if (status == 'success' && data.success == true) {
+            $('#size').text(data.data['size']);
+            $('#packageName').text(data.data['packageName']);
+            $('#versionCode').text(data.data['versionCode']);
+            $('#versionName').text(data.data['versionName']);
+            $('#launchableActivity').text(data.data['launchableActivity']);
+          }
+        }
+      });
+    };
+
+    getApkList();
+    getDeviceList();
+  </script>
+  <script type="text/javascript">
+    function confirm() {
+      console.log($('#selectApk :selected').text());
+      $('#selectApk_confirm').val($('#selectApk :selected').text());
+      $('#size_confirm').val($('#size').text());
+      $('#versionName_confirm').val($('#versionName').text());
+      $('#packageName_confirm').val($('#packageName').text());
+      $('#selecedDevice_confirm').val($('#selectDevice :selected').text());      
+    }
+
+    function useOld() {
+      getApkList();
+      $('#useNew').addClass('hidden');
+      $('#useOld').removeClass('hidden');
+    };
+
+    function useNew() {
+      $('#useOld').addClass('hidden');
+      $('#useNew').removeClass('hidden');
+    };
+    
+    function previous(argument) {
+      $('#' + $('#tab').find('.active').prev().attr('id') + ' a[href="' + $('#tab').find('.active').prev().children().attr('href') + '"]').tab('show');
+    };
+
+    function next() {
+      $('#' + $('#tab').find('.active').next().attr('id') + ' a[href="' + $('#tab').find('.active').next().children().attr('href') + '"]').tab('show');
+    };
+
+    $('#input').fileinput({
+                    // 'showUpload': false,
+                    language: 'zh', //设置语言
+                    uploadUrl: "/api/uploadApk", //上传的地址
+                    allowedFileExtensions : ['apk'],//接收的文件后缀,
+                    maxFileCount: 1,
+                    // enctype: 'multipart/form-data',
+                    // showUpload: true, //是否显示上传按钮
+                    // showCaption: false,//是否显示标题
+                    browseClass: "btn btn-primary", //按钮样式             
+                    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>", 
+                    // msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                });
+
+    // 控制tab是否可以点击
+    // $('#step1 a[href="#selectApkTab"]').click(function (e) {
+    //   e.preventDefault();
+    //   $(this).tab('show');
+    // });
+    // $('#step2 a[href="#selectServiceTab"]').click(function (e) {
+    //   e.preventDefault();
+    //   $(this).tab('show');
+    // });
+    // $('#step3 a[href="#selectDeviceTab"]').click(function (e) {
+    //   e.preventDefault();
+    //   $(this).tab('show');
+    // });
+    // $('#step4 a[href="#updateInfoTab"]').click(function (e) {
+    //   e.preventDefault();
+    //   $(this).tab('show');
+    // });
+
+    // $('#previous').click(function (e) {
+    //   e.preventDefault();
+    //   $('#' + $('#tab').find('.active').prev().attr('id') + ' a[href="' + $('#tab').find('.active').prev().children().attr('href') + '"]').tab('show');
+    // });
+
+    // $('#next').click(function (e) {
+    //   e.preventDefault();
+    //   $('#' + $('#tab').find('.active').next().attr('id') + ' a[href="' + $('#tab').find('.active').next().children().attr('href') + '"]').tab('show');
+    // });
+
+    // $('#selectApkTab a[href="#selectApkTab"]').tab('show') // Select tab by name
+    // $('#selectServiceTab a[href="#selectServiceTab"]').tab('show') // Select tab by name
+    // $('#updateInfoTab a[href="#updateInfoTab"]').tab('show') // Select tab by name
+  </script>
+
+</html>
