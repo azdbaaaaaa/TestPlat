@@ -12,6 +12,7 @@
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "express-session": "^1.14.1",
+    "formidable": "^1.0.17",
     "mongodb": "^2.2.5",
     "mongoose": "^4.6.0",
     "morgan": "~1.7.0",

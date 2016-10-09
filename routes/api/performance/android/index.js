@@ -16,6 +16,7 @@ router.post('/uploadApk', function(req, res) {
 	// model_users.find({},function(err,docs){
 	// 	console.log(docs);
 	// });
+	console.log(req);
 	res.send({
 	    message: '上传成功',
 	    success: true,
