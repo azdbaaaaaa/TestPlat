@@ -173,13 +173,13 @@
                               <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                             </div>
                             <div class="modal-body">
-                              <div class="" id="useNew">
+                              <div id="model_body">
                                 <input id="input" type="file" class="file" data-show-preview="false">
                               </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="getApkList();">Save changes</button>
+                              <button type="button" class="btn btn-primary disabled" data-dismiss="modal" onclick="getApkList();" id="save_changes">Save changes</button>
                             </div>
                           </div>
                         </div>
@@ -220,7 +220,7 @@
                   </div>
               </div>
           </div>
-            <a class="btn btn-primary col-lg-1" role="button">上一步</a> 
+            <a class="btn btn-primary col-lg-1" role="button" onclick="previous();">上一步</a> 
             <a class="btn btn-primary col-lg-1 col-lg-offset-10" role="button" onclick="next();">确认应用</a> 
         </div>
       </div>
@@ -459,19 +459,48 @@
       $('#' + $('#tab').find('.active').next().attr('id') + ' a[href="' + $('#tab').find('.active').next().children().attr('href') + '"]').tab('show');
     };
 
+    // 对文件上传控件#input进行配置
     $('#input').fileinput({
-                    // 'showUpload': false,
+                    // showUpload: false,
                     language: 'zh', //设置语言
                     uploadUrl: "/api/uploadApk", //上传的地址
                     allowedFileExtensions : ['apk'],//接收的文件后缀,
                     maxFileCount: 1,
-                    // enctype: 'multipart/form-data',
-                    // showUpload: true, //是否显示上传按钮
-                    // showCaption: false,//是否显示标题
+                    enctype: 'multipart/form-data',
+                    showUpload: true, //是否显示上传按钮
+                    showCaption: true,//是否显示标题
                     browseClass: "btn btn-primary", //按钮样式             
                     previewFileIcon: "<i class='glyphicon glyphicon-king'></i>", 
                     // msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
                 });
+
+    // 对文件上传完成事件进行监控，使保存按钮可用
+    $("#input").on("fileuploaded", function(event, data, previewId, index) {
+        if (data.response.success == true) {
+          // console.log(data.response.success);
+          $('#save_changes').removeClass('disabled');
+        }
+    });
+
+    // 对模态框modal的hidden事件进行监控(show/shown/hide)，对模态框modal数据进行重置
+    $('#myModal').on('hidden.bs.modal', function () {
+        console.log('hidden');
+        $('#model_body').empty();
+        $('#model_body').append('<input id="input" type="file" class="file" data-show-preview="false">');
+        $('#input').fileinput({
+                    // showUpload: false,
+                    language: 'zh', //设置语言
+                    uploadUrl: "/api/uploadApk", //上传的地址
+                    allowedFileExtensions : ['apk'],//接收的文件后缀,
+                    maxFileCount: 1,
+                    enctype: 'multipart/form-data',
+                    showUpload: true, //是否显示上传按钮
+                    showCaption: true,//是否显示标题
+                    browseClass: "btn btn-primary", //按钮样式             
+                    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>", 
+                    // msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                });
+    })
 
     // 控制tab是否可以点击
     // $('#step1 a[href="#selectApkTab"]').click(function (e) {

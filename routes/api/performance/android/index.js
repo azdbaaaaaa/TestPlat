@@ -13,13 +13,16 @@ var assert = require('assert');
 
 /* POST apk file */
 router.post('/uploadApk', function(req, res) {
+	// model_users.find({},function(err,docs){
+	// 	console.log(docs);
+	// });
 	res.send({
 	    message: '上传成功',
 	    success: true,
 	});
 });
 
-/* GET uploaded apk list */
+/* GET apk list */
 router.get('/getApkList', function(req, res) {
 	res.send({
 	    message: '获取成功',
@@ -31,6 +34,7 @@ router.get('/getApkList', function(req, res) {
 	});
 });
 
+/* GET apk Info */
 router.get('/getApkInfo', function(req, res) {
 	console.log(req.query.apkName);
 	if (req.query.apkName == 'a.apk') {
@@ -59,7 +63,7 @@ router.get('/getApkInfo', function(req, res) {
 	
 });
 
-/* GET available device list */
+/* GET device list */
 router.get('/getDeviceList', function(req, res) {
   res.send({
     message: '获取成功',
@@ -75,8 +79,8 @@ router.get('/getDeviceList', function(req, res) {
   });
 });
 
+/* GET device Info */
 router.get('/getDeviceInfo', function (req, res) {
-	console.log(req.query.deviceName);
 	res.send({
     message: '获取成功',
     success: true,
@@ -86,6 +90,18 @@ router.get('/getDeviceInfo', function (req, res) {
     	'phoneModel': 'model'    	
     },
   });
+});
+
+/* start test */
+router.get('/startTest', function (req, res){
+	res.send({
+		message: '开始测试',
+		seccess: true,
+		data: {
+			test_plan: 'monkey',
+			test_platform: 'android'
+		}
+	});
 });
 
 module.exports = router;

@@ -4,21 +4,49 @@ var session = require('express-session');
 var assert = require('assert');
 
 
-var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/data';
+// var MongoClient = require('mongodb').MongoClient;
+// var url = 'mongodb://localhost:27017/data';
 // var ObjectId = require('mongodb').ObjectId;
 
 var mongoose = require('mongoose');
-var db = mongoose.connect("mongodb://localhost:27017/data");
-var UsersSchema = new mongoose.Schema({
-      // username: String,   //定义一个属性name，类型为String
+var db_data = mongoose.connect("mongodb://localhost:27017/data");
+// var db_testplan = mongoose.connect("mongodb://localhost:27017/testplan")
+var UserSchema = new mongoose.Schema({
+      username: String,   //定义一个属性name，类型为String
       password: String
     });
-var UsersModel = db.model('Users', UsersSchema);
+var UsersModal = db_data.model('Users', UserSchema);
+
+// 通过entity保存数据
+router.get('/save', function (req, res) {
+    var UsersEntity = new UsersModal({username:'jimmy2',password:'qq123456'});
+    console.log(UsersEntity.username);
+    UsersEntity.save();
+    res.redirect("/");
+});
+
+// 通过entity更新数据
+router.get('/update', function (req, res) {
+    UsersModal.findOne({username: 'jimmy2'},function(err,user){
+          user.username = 'jimmy_updated';
+          user.save(function(err){});
+        });
+    res.redirect("/");
+});
+
+// 通过modal删除数据
+router.get('/del', function (req, res) {
+    UsersModal.findOne({username: 'jimmy_updated',password:'qq123456'},function(err,user){
+      user.remove(function(err){});
+    });
+    // var UsersEntity = new UsersModal({username:'jimmy_updated'});
+    // console.log(UsersEntity);
+    // UsersEntity.remove(function(err){console.log("remove pass")});
+    res.redirect("/");
+});
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    console.log(11111111);
     if (req.session.user) {
         res.render('index', { title: '首页', is_login: true, username: req.session.user.username});
     }else{
@@ -62,7 +90,7 @@ router.get('/register', function(req, res) {
 /* POST login API. */
 router.post('/api/login', function(req, res) {
 
-    UsersModel.find({username:req.body.username,password:req.body.password},function(err,docs){
+    UsersModal.find({username:req.body.username,password:req.body.password},function(err,docs){
       console.log(docs.length);
       if (docs.length > 0) {
           console.log("login ok");
