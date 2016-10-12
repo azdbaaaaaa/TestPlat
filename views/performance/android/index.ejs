@@ -179,7 +179,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary disabled" data-dismiss="modal" onclick="getApkList();" id="save_changes">Save changes</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="getApkList();" id="save_changes" disabled="disabled">Save changes</button>
                             </div>
                           </div>
                         </div>
@@ -198,7 +198,7 @@
                         <span class="sr-only">Close</span>
                       </button>
                       <div>
-                        <strong>size:</strong><span id="size"></span>
+                        <strong>apkSize:</strong><span id="apkSize"></span>
                         <br>
                         <strong>versionName:</strong><span id="versionName"></span>
                         <br>
@@ -207,6 +207,8 @@
                         <strong>versionCode:</strong><span id="versionCode"></span>
                         <br>
                         <strong>launchableActivity:</strong><span id="launchableActivity"></span>
+                        <br>
+                        <strong>uploadTime:</strong><span id="uploadTime"></span>
                       </div>
                     </div>         
                   </div>
@@ -297,7 +299,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">应用包大小</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="size_confirm" placeholder="" value="" disabled>
+                  <input type="text" class="form-control" id="apkSize_confirm" placeholder="" value="" disabled>
                 </div>
               </div>              
               <div class="form-group">
@@ -362,12 +364,10 @@
         data: data,
         success: function (data, status) {
           if (status == 'success' && data.success == true) {
-            $('#phoneAPIVersion').text(data.data.detail['phoneAPIVersion']);
-            $('#phoneBrand').text(data.data.detail['phoneBrand']);
-            $('#phoneModel').text(data.data.detail['phoneModel']);
-            for (var i = 0; i < data.data.list.length; i++) {
-              $('#selectDevice').append("<option>" + data.data.list[i] + "</option>");
+            for (var i = 0; i < data.data.length; i++) {
+              $('#selectDevice').append("<option>" + data.data[i] + "</option>");
             };
+            getDeviceInfo($('#selectDevice option:first').val());
           }
         }
       });
@@ -396,14 +396,10 @@
         type: 'get',
         success: function (data, status) {
           if (status == 'success' && data.success == true) {
-            $('#size').text(data.data.detail['size']);
-            $('#packageName').text(data.data.detail['packageName']);
-            $('#versionCode').text(data.data.detail['versionCode']);
-            $('#versionName').text(data.data.detail['versionName']);
-            $('#launchableActivity').text(data.data.detail['launchableActivity']);
-            for (var i = 0; i < data.data.list.length; i++) {
-              $('#selectApk').append("<option>" + data.data.list[i] + "</option>");
+            for (var i = 0; i < data.data.length; i++) {
+              $('#selectApk').append("<option>" + data.data[i] + "</option>");
             };
+            getApkInfo($('#selectApk option:first').val());
           }
         }
       });
@@ -417,11 +413,12 @@
         data: data,
         success: function (data, status) {
           if (status == 'success' && data.success == true) {
-            $('#size').text(data.data['size']);
+            $('#apkSize').text(data.data['apkSize']);
             $('#packageName').text(data.data['packageName']);
             $('#versionCode').text(data.data['versionCode']);
             $('#versionName').text(data.data['versionName']);
             $('#launchableActivity').text(data.data['launchableActivity']);
+            $('#uploadTime').text((new Date(data.data['uploadTime'])).toLocaleString());
           }
         }
       });
@@ -434,7 +431,7 @@
     function confirm() {
       console.log($('#selectApk :selected').text());
       $('#selectApk_confirm').val($('#selectApk :selected').text());
-      $('#size_confirm').val($('#size').text());
+      $('#apkSize_confirm').val($('#apkSize').text());
       $('#versionName_confirm').val($('#versionName').text());
       $('#packageName_confirm').val($('#packageName').text());
       $('#selecedDevice_confirm').val($('#selectDevice :selected').text());      
@@ -477,8 +474,9 @@
     // 对文件上传完成事件进行监控，使保存按钮可用
     $("#input").on("fileuploaded", function(event, data, previewId, index) {
         if (data.response.success == true) {
-          // console.log(data.response.success);
-          $('#save_changes').removeClass('disabled');
+          alert('data');
+          console.log(event);
+          $('#save_changes').removeAttr('disabled');
         }
     });
 
@@ -487,6 +485,7 @@
         console.log('hidden');
         $('#model_body').empty();
         $('#model_body').append('<input id="input" type="file" class="file" data-show-preview="false">');
+        $('#save_changes').attr('disabled','disabled');
         $('#input').fileinput({
                     // showUpload: false,
                     language: 'zh', //设置语言

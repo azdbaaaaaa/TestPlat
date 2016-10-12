@@ -33,16 +33,19 @@ router.post('/uploadApk', function(req, res) {
       	versionName: "",
       	packageName: "",
       	versionCode: 0,
-      	launchableActivity: ""
+      	launchableActivity: "",
+      	uploadTime: 0,
       };
-      util.getApkInfo(data.apkPath, function (docs) {
+      util.getApkInfo_aapt(data.apkPath, function (docs) {
       	data.packageName = docs.packageName;
       	data.versionCode = docs.versionCode;
       	data.versionName = docs.versionName;
+      	data.launchableActivity = docs.launchableActivity;
+      	console.log(docs);
+      	data.uploadTime = (new Date()).valueOf();
       	var ApkListEntity = new util.ApkListModel(data);
       	ApkListEntity.save();
-      	// console.log(parseFloat(files.file_data.size/1024/1024).toFixed(2) + "MB");
-      	res.send({message: '上传成功',success: true,});
+      	res.send({message: '上传成功',success: true,data: data.launchableActivity});
       });
     });
 });
@@ -51,51 +54,44 @@ router.post('/uploadApk', function(req, res) {
 router.get('/getApkList', function(req, res) {
 	util.ApkListModel.find({},{"apkName":1,"_id":0}, function (err, docs) {
 		if (err) return handleError(err);
-		// console.log(docs);
 		var apkList = [];
 		for (var i = 0; i < docs.length; i++) {
 			apkList.push(docs[i].apkName);
-			// console.log(docs[i].apkName);
 		};
-		console.log(apkList);
 		res.send({
 		    message: '获取成功',
 		    success: true,
-		    data: {
-		    		'list': apkList, 
-		    		'detail': {'size': docs[0].apkSize, 'packageName': docs[0].packageName, 'versionCode': docs[0].versionCode, 'versionName': docs[0].versionName, 'launchableActivity': docs[0].launchableActivity}
-		    	},
+		    data: apkList, 
 		});
-	});
+	}).sort({'uploadTime':-1});
 });
 
 /* GET apk Info */
 router.get('/getApkInfo', function(req, res) {
-	console.log(req.query.apkName);
-	if (req.query.apkName == 'a.apk') {
+	// console.log(req.query.apkName);
+	util.ApkListModel.findOne({"apkName":req.query.apkName}, function (err, docs) {
+		if (err) return handleError(err);
+		if (docs == null) {
+			res.send({
+				message: '测试包不存在',
+				success: false,				
+			});
+			return;
+		};
+		console.log(docs);
 		res.send({
-		message: '获取成功',
-	    success: true,
-	    data: {
-	    	'size': '8.87M',
-	    	'packageName': 'com.yaya.mmbang',
-	    	'versionCode': '20160720', 
-	    	'versionName': '3.11.4', 
-	    	'launchableActivity': 'com.yaya.mmbang.activity.SplashActivity'}
-		})	
-	}else{
-		res.send({
-		message: '获取成功',
-	    success: true,
-	    data: {
-	    	'size': '10.87M', 
-	    	'packageName': 'com.yaya.mmbang', 
-	    	'versionCode': '20160720', 
-	    	'versionName': '3.11.4', 
-	    	'launchableActivity': 'com.yaya.mmbang.activity.SplashActivity'}
+			message: '获取成功',
+			success: true,
+			data: {
+				'apkSize': parseFloat(docs.apkSize/1024/1024).toFixed(2) + 'MB',
+				'packageName': docs.packageName,
+				'versionCode': docs.versionCode, 
+				'versionName': docs.versionName, 
+				'launchableActivity': docs.launchableActivity,
+				'uploadTime': docs.uploadTime
+			}
 		});
-	}
-	
+	});
 });
 
 /* GET device list */
@@ -103,14 +99,7 @@ router.get('/getDeviceList', function(req, res) {
   res.send({
     message: '获取成功',
     success: true,
-    data: {
-    	'list': ['xiaomi note plus', 'vivo Y27', 'vivo X3T'],
-    	'detail': {
-    		'phoneAPIVersion': 'API16',
-    		'phoneBrand': 'xiaomi-1',
-    		'phoneModel': 'model-1'
-    	},
-    }, 
+    data: ['xiaomi_note_pro'], 
   });
 });
 
@@ -120,7 +109,7 @@ router.get('/getDeviceInfo', function (req, res) {
     message: '获取成功',
     success: true,
     data: {
-    	'phoneAPIVersion': 'API17',
+    	'phoneAPIVersion': '5.0.2',
     	'phoneBrand': 'xiaomi',
     	'phoneModel': 'model'    	
     },

@@ -16,7 +16,8 @@ var ApkListSchema = new mongoose.Schema({
 	versionName: String,
 	packageName: String,
 	versionCode: Number,
-	launchableActivity: String
+	launchableActivity: String,
+	uploadTime: Number
 });
 var ApkListModel = db_data.model('apklist', ApkListSchema);
 
@@ -72,15 +73,15 @@ function execCmd(cmdStr, callback) {
 	var exec = require('child_process').exec; 
 	exec(cmdStr, function(err,stdout,stderr){
 		if (err) {
-			console.log(err);
+			callback(err);
 			return;
 		};
 		if (stderr) {
-			console.log(stderr);
+			callback(stderr);
 			return;
 		};
 		if (stdout) {
-			callback(stdout);
+			callback(null, stdout);
 			return;
 			// return stdout;
 		};
@@ -93,21 +94,24 @@ exports.getApkInfo_packageName = function (apkPath) {
 	return execCmd(getPacknameStr);
 };
 
-exports.getApkInfo = function (apkPath, callback) {
+exports.getApkInfo_aapt = function (apkPath, callback) {
 	var exec = require('child_process').exec; 
-	var getPacknameStr = 'aapt dump badging ' + apkPath + ' grep package | head -n 1 | cut -d "\'" -f 2 | tr -d \'\\n\'';
-	var getVersionCodeStr = 'aapt dump badging ' + apkPath + ' grep package | head -n 1 | cut -d "\'" -f 4 | tr -d \'\\n\'';
-	var getVersionNameStr = 'aapt dump badging ' + apkPath + ' grep package | head -n 1 | cut -d "\'" -f 6 | tr -d \'\\n\'';
+	var getPacknameStr = 'aapt dump badging ' + apkPath + ' | grep package | head -n 1 | cut -d "\'" -f 2 | tr -d \'\\n\'';
+	var getVersionCodeStr = 'aapt dump badging ' + apkPath + ' | grep package | head -n 1 | cut -d "\'" -f 4 | tr -d \'\\n\'';
+	var getVersionNameStr = 'aapt dump badging ' + apkPath + ' | grep package | head -n 1 | cut -d "\'" -f 6 | tr -d \'\\n\'';
+	var getLaunchableActivityStr = 'aapt dump badging ' + apkPath + ' | grep launchable-activity | head -n 1 | cut -d "\'" -f 2 | tr -d \'\\n\''
 	var result = {};
-	execCmd(getPacknameStr,function (doc) {
+	execCmd(getPacknameStr,function (err, doc) {
 		result.packageName = doc;
-		execCmd(getVersionCodeStr,function (doc) {
+		execCmd(getVersionCodeStr,function (err, doc) {
 			result.versionCode = doc;
-			execCmd(getVersionNameStr,function (doc) {
+			execCmd(getVersionNameStr,function (err, doc) {
 				result.versionName = doc;
-				callback(result);
-				return;
-				// return result;
+				execCmd(getLaunchableActivityStr, function (err, doc) {
+					result.launchableActivity = doc
+					callback(result);
+					return;
+				})
 			});
 		});
 	});
