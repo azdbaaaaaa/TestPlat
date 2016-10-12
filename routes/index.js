@@ -2,59 +2,42 @@ var express = require('express');
 var router = express.Router();
 var session = require('express-session');
 var assert = require('assert');
+var util = require('./utils/util');
 
-
-// var MongoClient = require('mongodb').MongoClient;
-// var url = 'mongodb://localhost:27017/data';
-// var ObjectId = require('mongodb').ObjectId;
-
-var mongoose = require('mongoose');
-var db_data = mongoose.connect("mongodb://localhost:27017/data");
-// var db_testplan = mongoose.connect("mongodb://localhost:27017/testplan")
-var UserSchema = new mongoose.Schema({
-      username: String,   //定义一个属性name，类型为String
-      password: String
-    });
-var UsersModal = db_data.model('Users', UserSchema);
-
+// 通过entity查询数据
+router.get('/query', function (req, res) {
+  var data1 = {
+    apkName: "files.file_data.name",
+    apkPath: "files.file_data.path",
+    apkSize: 12315,
+    versionName: "String",
+    packageName: "String",
+    versionCode: 201602,
+    launchableActivity: "String"
+  };
+  var ApkListEntity = new util.ApkListModel(data1);
+  console.log(data1);
+  ApkListEntity.save(function (err) {
+    console.log(err);
+  });
+  res.render('index', { title: '首页', is_login: true, username: null});
+});
 
 // 通过entity保存数据
 router.get('/save', function (req, res) {
-    var UsersEntity = new UsersModal({username:'jimmy2',password:'qq123456'});
-    console.log(UsersEntity.username);
-    UsersEntity.save();
+    util.saveData({username: "jimmy2", password: "qq123456"});
     res.render('index', { title: '首页', is_login: true, username: null});
 });
 
 // 通过entity更新数据
 router.get('/update', function (req, res) {
-    UsersModal.findOne({username: 'jimmy2'},function(err,user){
-      if (err == null && user !== null) {
-        console.log(err);
-        console.log(user);
-        user.username = 'jimmy_updated';
-        user.save(function(err){});
-      } else {
-        console.log(err)
-      }
-    });
+    util.updateData({username: 'jimmy2'}, 'username', 'jimmy_updated');
     res.render('index', { title: '首页', is_login: true, username: null});
 });
 
-// 通过modal删除数据
+// 通过model删除数据
 router.get('/del', function (req, res) {
-    UsersModal.findOne({username: 'jimmy_updated',password:'qq123456'},function(err,user){
-      if (err == null && user !== null) {
-        console.log(err);
-        console.log(user);
-        user.remove(function(err){});
-      } else {
-        console.log(err);
-      }
-    });
-    // var UsersEntity = new UsersModal({username:'jimmy_updated'});
-    // console.log(UsersEntity);
-    // UsersEntity.remove(function(err){console.log("remove pass")});
+    util.delData({username: 'jimmy_updated',password:'qq123456'});
     res.render('index', { title: '首页', is_login: true, username: null});
 });
 
@@ -102,10 +85,8 @@ router.get('/register', function(req, res) {
 
 /* POST login API. */
 router.post('/api/login', function(req, res) {
-
-    UsersModal.find({username:req.body.username,password:req.body.password},function(err,docs){
-      console.log(docs.length);
-      if (docs.length > 0) {
+      util.UsersModel.findOne({username:req.body.username,password:req.body.password}, function (err, docs) {
+        if (docs) {
           console.log("login ok");
           req.session.user = {username:req.body.username,password:req.body.password};
           res.send({ 
@@ -113,16 +94,40 @@ router.post('/api/login', function(req, res) {
             success: true, 
             username: req.body.username
           });
-      }else{
+        } else {
           console.log("login fail");
           req.session.error = "用户名或者密码不正确";
           res.send({ 
-            message: '登录失败,用户名或者密码不正确', 
+            message: '登录失败', 
             success: false, 
             username: null
           });
-      };
-    });
+        }
+      });
+
+    // util.queryData({username:req.body.username,password:req.body.password},function(err,docs){
+      // console.log(docs.length);
+      // if (docs.length > 0) {
+
+        // if(util.queryData({username:req.body.username,password:req.body.password})){
+        //   console.log("login ok");
+        //   req.session.user = {username:req.body.username,password:req.body.password};
+        //   res.send({ 
+        //     message: '登录成功', 
+        //     success: true, 
+        //     username: req.body.username
+        //   });
+        // };
+      // }else{
+      //     console.log("login fail");
+      //     req.session.error = "用户名或者密码不正确";
+      //     res.send({ 
+      //       message: '登录失败,用户名或者密码不正确', 
+      //       success: false, 
+      //       username: null
+      //     });
+      // };
+    // });
 
     // var user={
     //         username:'admin',
