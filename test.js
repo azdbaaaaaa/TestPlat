@@ -21,5 +21,4 @@
 // var unixTimestamp = new Date(t);
 // commonTime = unixTimestamp.toLocaleString();
 // console.log(commonTime);
-
-console.log((new Date(1476243675345.0)).toLocaleString());
+// console.log((new Date(1476243675345.0)).toLocaleString());
