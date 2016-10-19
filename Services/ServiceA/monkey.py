@@ -35,11 +35,15 @@ def doMonkey(device, config, outputfile):
                     cmd += " " + tmp
     child = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     # child.wait()
-    print child.returncode
+    # print child.returncode
     (stdoutdata, stderrdata) = child.communicate()
-    print("stderrdata:%s") % stderrdata
-    # print("stdoutdata:%s") % stdoutdata
+    print("returncode:%s") % child.returncode
+    if stdoutdata:
+        util.logger.debug(stdoutdata)
+    if stderrdata:
+        util.logger.err("i am debug")
     with open(outputfile, "a") as f:
+        f.write(cmd)
         f.write(stdoutdata)
 
 
@@ -58,17 +62,17 @@ def main(argv):
             sys.exit(0)
         elif opt in ("-c", "--config"):
             config = arg
-        elif opt in ("-d", "--device"):
-            device = arg
-        elif opt in ("-o", "--outputfile"):
-            outputfile = arg
+            if opt in ("-d", "--device"):
+                device = arg
+                if opt in ("-o", "--outputfile"):
+                    outputfile = arg
         else:
-            print 'unhandled option'
+            Usage()
             sys.exit(3)
     doMonkey(device, config, outputfile)
 
 
 if __name__ == '__main__':
     main(sys.argv)
-    util.logger.debug("i am debug")
-    util.logger.info("i am info")
+    # util.logger.debug("i am debug")
+    # util.logger.info("i am info")
