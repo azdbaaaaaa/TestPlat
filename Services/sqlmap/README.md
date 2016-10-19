@@ -11,7 +11,8 @@ sqlmap works out of the box with Python version 2.6.x and 2.7.x on any platform.
 
 ## Usage
 
-- `python sqlmap.py -u "http://example.com/path/?id=1" --batch --banner`
+- simple example:   
+`python sqlmap.py -u "http://example.com/path/?id=1" --batch --banner`
 
 To get a list of basic options and switches use:  
 ~~~
