@@ -21,8 +21,22 @@ var ApkListSchema = new mongoose.Schema({
 });
 var ApkListModel = db_data.model('apklist', ApkListSchema);
 
+// 定义ApiRecordResultSchema & ApiRecordResultModel
+var ApiRecordResultSchema = new mongoose.Schema({
+      origin: Object,   //定义一个属性name，类型为String
+      Iter: Number,
+      created: Number,
+      requests: Object,
+      updated: Number,
+      result: String,
+      desc: String
+    });
+var ApiRecordResultModel = db_data.model('record', ApiRecordResultSchema);
+
+
 exports.UsersModel = UsersModel;
 exports.ApkListModel = ApkListModel;
+exports.ApiRecordResultModel = ApiRecordResultModel;
 
 exports.queryData = function (data) {
 	UsersModel.findOne(data, function (err, docs) {

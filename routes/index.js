@@ -50,6 +50,81 @@ router.get('/', function(req, res) {
     }
 });
 
+/* GET apiTest page. */
+router.get('/apiRecordTest', function(req, res) {
+  console.log(req.query.result);
+    if  (!req.query.Iter) {
+      util.ApiRecordResultModel.find({},{"Iter": 1, "_id": 0}, function (err, docs) {
+        if (err) return handleError(err);
+        req.query.Iter = docs[0].Iter;
+        util.ApiRecordResultModel.count({"Iter":req.query.Iter}, function (err, docs) {
+          if (err) return handleError(err);
+          var totalCount = docs;
+          util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Pass"}, function (err, docs) {
+            if (err) return handleError(err);
+            var passCount = docs;
+            util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Fail"}, function (err, docs) {
+              if (err) return handleError(err);
+              var failCount = docs;
+              util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Exception"}, function (err, docs) {
+                if (err) return handleError(err);
+                var exceptionCount = docs;
+                // util.ApiRecordResultModel.find({"Iter":req.query.Iter})
+                if (req.session.user) {
+                    res.render('apiRecordTest', { title: '接口回放测试结果页',
+                                                  Iter: req.query.Iter,
+                                                  is_login: true,
+                                                  totalCount: totalCount,
+                                                  passCount: passCount,
+                                                  failCount: failCount,
+                                                  exceptionCount: exceptionCount,
+                                                  username: req.session.user.username});
+                }else{
+                    req.session.error = "请先登录";
+                    req.session.frompage = "from=apiRecordTest";
+                    res.redirect("/login?"+req.session.frompage);
+                }
+              });
+            });
+          });
+        });
+      }).sort({Iter: -1}).limit(1);
+    } else {
+      util.ApiRecordResultModel.count({"Iter":req.query.Iter}, function (err, docs) {
+        if (err) return handleError(err);
+        var totalCount = docs;
+        // console.log(docs);
+        // console.log(req.query.Iter);
+        util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Pass"}, function (err, docs) {
+          if (err) return handleError(err);
+          var passCount = docs;
+          util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Fail"}, function (err, docs) {
+            if (err) return handleError(err);
+            var failCount = docs;
+            util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Exception"}, function (err, docs) {
+              if (err) return handleError(err);
+              var exceptionCount = docs;
+              if (req.session.user) {
+                  res.render('apiRecordTest', { title: '接口回放测试结果页',
+                                                Iter: req.query.Iter,
+                                                is_login: true,
+                                                totalCount: totalCount,
+                                                passCount: passCount,
+                                                failCount: failCount,
+                                                exceptionCount: exceptionCount,
+                                                username: req.session.user.username});
+              }else{
+                  req.session.error = "请先登录";
+                  req.session.frompage = "from=apiRecordTest";
+                  res.redirect("/login?"+req.session.frompage);
+              }
+            });
+          });
+        });
+      });
+    };
+});
+
 /* GET login page. */
 router.get('/login', function(req, res) {
     // console.log(req.session.error)
@@ -72,7 +147,7 @@ router.get('/home', function(req, res) {
         res.render('home', { title: '后台添加页' });
     }else{
         req.session.error = "请先登录";
-        req.session.frompage = "home";
+        req.session.frompage = "from=home";
         res.redirect("/login?"+req.session.frompage);
         // res.send(404)
     }
@@ -104,46 +179,6 @@ router.post('/api/login', function(req, res) {
           });
         }
       });
-
-    // util.queryData({username:req.body.username,password:req.body.password},function(err,docs){
-      // console.log(docs.length);
-      // if (docs.length > 0) {
-
-        // if(util.queryData({username:req.body.username,password:req.body.password})){
-        //   console.log("login ok");
-        //   req.session.user = {username:req.body.username,password:req.body.password};
-        //   res.send({ 
-        //     message: '登录成功', 
-        //     success: true, 
-        //     username: req.body.username
-        //   });
-        // };
-      // }else{
-      //     console.log("login fail");
-      //     req.session.error = "用户名或者密码不正确";
-      //     res.send({ 
-      //       message: '登录失败,用户名或者密码不正确', 
-      //       success: false, 
-      //       username: null
-      //     });
-      // };
-    // });
-
-    // var user={
-    //         username:'admin',
-    //         password:'admin'
-    //    }
-    // // console.log("req.body.username")
-    // if(req.body.username==user.username&&req.body.password==user.password){
-    //     req.session.user = user;
-    //     // res.redirect("/home", { title: '登录成功页' , username: req.body.username})
-    //     res.send({ title: '登录成功页' , username: req.body.username});
-    //     // res.render('home', { title: '登录成功页' , username: req.body.username});
-    //   }else{
-    //     req.session.error = "用户名或者密码不正确";
-    //     res.send(404);
-    //     // res.redirect("/login", { message: "error" });
-    //   }
 });
 
 /* GET 1.html */
@@ -188,9 +223,3 @@ router.post('/homepage', function(req, res) {
 });
 
 module.exports = router;
-
-// {
-// "cid":{$in: [
-//      "fd24a8ddafb0c6accbae66f71745469c" 
-//   ]}
-// }

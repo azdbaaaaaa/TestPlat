@@ -4,18 +4,19 @@
 import subprocess
 import getopt
 import sys
+import os
 import util
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
+log = util.logger()
 
 def Usage():
-    print 'PyTest.py usage:'
-    print '-h,--help: print help message.'
+    print 'monkey.py usage:'
+    print '-h, --help: print help message.'
     print '-v, --version: print script version'
-    print '-o, --output: input an output verb'
-    print '--foo: Test option '
-    print '--fre: another test option'
+    print '-c, --config: config file for monkey'
+    print '-d, --device: target android device '
+    print '-o, --outputfile: monkey log file'
 
 
 def Version():
@@ -23,10 +24,13 @@ def Version():
 
 
 def doMonkey(device, config, outputfile):
-    if device is None or config is None or outputfile is None:
+    if config is None or outputfile is None:
         Usage()
         sys.exit(3)
-    cmd = "adb -s " + device + " shell monkey"
+    if device is None:
+        cmd = "adb shell monkey"
+    else:
+        cmd = "adb -s " + device + " shell monkey"
     with open(config) as f:
         for argv in f.readlines():
             for x in xrange(0, len(argv.strip().split(','))):
@@ -39,9 +43,11 @@ def doMonkey(device, config, outputfile):
     (stdoutdata, stderrdata) = child.communicate()
     print("returncode:%s") % child.returncode
     if stdoutdata:
-        util.logger.debug(stdoutdata)
+        log.debug(stdoutdata)
     if stderrdata:
-        util.logger.err("i am debug")
+        log.err(stderrdata)
+    if not os.path.exists(os.path.dirname(outputfile)):
+        os.makedirs(os.path.dirname(outputfile))
     with open(outputfile, "a") as f:
         f.write(cmd)
         f.write(stdoutdata)
@@ -62,10 +68,10 @@ def main(argv):
             sys.exit(0)
         elif opt in ("-c", "--config"):
             config = arg
-            if opt in ("-d", "--device"):
-                device = arg
-                if opt in ("-o", "--outputfile"):
-                    outputfile = arg
+        elif opt in ("-d", "--device"):
+            device = arg
+        elif opt in ("-o", "--outputfile"):
+            outputfile = arg
         else:
             Usage()
             sys.exit(3)
@@ -74,5 +80,6 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv)
-    # util.logger.debug("i am debug")
-    # util.logger.info("i am info")
+    # log.debug("i am debug")
+    # log.info("i am info")
+    # monkey.py -d 75UBBLH2278H -c config.plist -o 1.log

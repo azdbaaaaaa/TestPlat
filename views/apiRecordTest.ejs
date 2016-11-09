@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title><%= title %></title>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="/jquery/dist/jquery.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Bootstrap -->
+		<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" src="/bootstrap-paginator/src/bootstrap-paginator.js"></script>
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		    <div class="container">
+		        <div class="navbar-header navbar-left">
+		          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand hidden-sm" href="#">移动测试平台</a>
+		        </div>
+		        <div class="navbar-collapse collapse" role="navigation">
+		          	<ul class="nav navbar-nav">
+			          	<li><a href="/">首页</a></li>
+			            <li class="dropdown">
+			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">性能测试 <span class="caret"></span></a>
+			            	<ul class="dropdown-menu" role="menu">
+	            	            <li><a href="/performance/android">Android 性能测试</a></li>
+	            	            <li><a href="/performance/android/report">Android 性能测试报告预览</a></li>
+	            	            <li class="divider"></li>
+	            	            <li><a href="/performance/ios">iOS 性能测试</a></li>
+	            	            <li><a href="/performance/ios/report">iOS 性能测试报告预览</a></li>
+	            	            <li class="divider"></li>
+	            	            <li><a href="#">One more separated link</a></li>
+            	          	</ul>
+			            </li>
+			            <li class="active"><a href="/apiRecordTest/">接口测试</a></li>
+			            <li><a href="#" target="_blank">自动化测试</a></li>
+			            <li><a href="/home/">home页面</a></li>
+		          	</ul>
+		          	<ul class="nav navbar-nav navbar-right hidden" id="logout">
+				        <p class="navbar-text">Signed in as <strong style="color:green"><%= username%></strong></p>
+				        <a type="button" class="navbar-nav btn btn-danger navbar-btn" href="/logout">
+				        	退出登录
+				        </a>
+				    </ul>
+		        </div>
+		    </div>
+		</div>
+		<div style="padding-top: 80px;">
+		<h1>第<span id="Iter"><%= Iter %></span>次运行结果汇总</h1>
+			<table class="table table-bordered">
+				<tr>
+					<th>total</th>
+					<th>pass</th>
+					<th>fail</th>
+					<th>exception</th>
+				</tr>
+				<tr>
+					<td><a href="javascript:void(0);" id="totalCount"><%= totalCount %></a></td>
+					<td><a href="javascript:void(0);" id="passCount"><%= passCount %></a></td>
+					<td><a href="javascript:void(0);" id="failCount"><%= failCount %></a></td>
+					<td><a href="javascript:void(0);" id="exceptionCount"><%= exceptionCount %></a></td>
+				</tr>
+			</table>
+		</div>
+		<div style="padding-top: 10px;padding-bottom: 100px">
+			<table class="table table-condensed table-hover table-bordered" id="record">
+				<tr class="active" id="tableHead">
+					<th>id</th>
+					<th>协议</th>
+					<th>域名</th>
+					<th>路径</th>
+					<th>返回码</th>
+					<th>断言结果</th>
+					<th>描述</th>
+				</tr>
+			</table>
+			<!-- <ol class="breadcrumb">
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Library</a></li>
+				<li class="active">Data</li>
+			</ol> -->
+<!-- 			<nav>
+			  <ul class="pagination">
+			    <li class="disabled"><a href="#">&laquo;</a></li>
+			    <li class="active" id="paginationOne"><a href="#">1</a></li>
+			    <li class=""><a href="#">&raquo;</a></li>
+			  </ul>
+			</nav> -->
+			<nav>
+			  <ul class="pagination" id="pagination">
+			    <li class="disabled"><a href="#">&laquo;</a></li>
+			    <li class="active" id="paginationOne"><a href="#">1</a></li>
+			    <li class=""><a href="#">&raquo;</a></li>
+			  </ul>
+			</nav>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		if (<%= is_login%>) {
+			$('#logout').removeClass('hidden');
+		}
+	</script>
+	<script type="text/javascript">
+
+	function getApiRecordResult(query) {
+		$('#tableHead').siblings().empty();
+		$.ajax({
+			  url: '/api/getApiRecordResult',
+			  data: query,
+			  type: 'get',
+			  success: function (data, status) {
+			    if (status == 'success' && data.success == true) {
+			      for (var i = 0; i < data.data.length; i++) {
+			      	if (data.data[i].result == "Pass") {
+			      		color = "success"
+			      	} else if (data.data[i].result == "Fail") {
+			      		color = "danger"
+			      	} else {
+			      		color = "warning"
+			      	}
+			        $('#record').append(
+			        	"<tr class='" + color + "'>" +
+			        	"<td>" + data.data[i].id + "</td>" +
+			        	"<td>" + data.data[i].requests.protocol + "</td>" +
+			        	"<td>" + data.data[i].requests.host + "</td>" +
+			        	"<td>" + data.data[i].requests.path + "</td>" +
+			        	"<td>" + data.data[i].requests.statusCode + "</td>" +
+			        	"<td>" + data.data[i].result + "</td>" + 
+			        	"<td>" + data.data[i].desc + "</td>" +
+			        	"</tr>");
+			        // $('');
+			      };
+			    }
+			  }
+			});
+	};
+
+	getApiRecordResult({"Iter": $('#Iter').text()});
+	$("#totalCount").click(function() {
+		getApiRecordResult({"Iter": $('#Iter').text()});
+	});
+	$("#passCount").click(function() {
+		getApiRecordResult({"Iter": $('#Iter').text(), "result": "Pass"});
+	});
+	$("#failCount").click(function() {
+		getApiRecordResult({"Iter": $('#Iter').text(), "result": "Fail"});
+	});
+	$("#exceptionCount").click(function() {
+		getApiRecordResult({"Iter": $('#Iter').text(), "result": "Exception"});
+	});
+
+	// var options = {
+	//     alignment:"center",//居中显示
+	//     currentPage: 1,//当前页数
+	//     totalPages: 10,//总页数 注意不是总条数
+	//     pageUrl: function(type, page, current){
+	//             if (page==current) {
+	//                 return "javascript:void(0)";
+	//             } else {
+	//                 return "/api/getApiRecordResult?page="+page;
+	//             }
+	//         }
+	// }
+	// $("#pagintor").bootstrapPaginator(options);// $("#pagintor") Bootstrap 是2.X 使用div元素，3.X使用ul元素
+	</script>
+</html>

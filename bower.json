@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "bootstrap-fileinput": "^4.3.5",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "bootstrap-paginator": "^1.0.2"
   }
 }

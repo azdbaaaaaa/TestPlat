@@ -83,9 +83,8 @@
     			data: data,
     			success: function (data, status) {
     				if (status == 'success' && data.success == true) {
-    					// alert();
     					if (window.location.href.split("?")[1]) {
-    						location.href = window.location.href.split("?")[1];
+    						location.href = window.location.href.split("?")[1].split("=")[1];
     					}else{
     						location.href = "/";
     					};

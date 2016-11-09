@@ -9,7 +9,7 @@ router.get('/performance/android', function(req, res) {
         res.render('performance/android/index', { title: '报告页', is_login: true, username: req.session.user.username});
     }else{
         req.session.error = "请先登录";
-        req.session.frompage = "performance/android";
+        req.session.frompage = "from=performance/android";
         res.redirect("/login?"+req.session.frompage);
         // res.send(404)
     }
@@ -21,7 +21,7 @@ router.get('/performance/android/report', function(req, res) {
         res.render('performance/android/report', { title: '报告页', is_login: true, username: req.session.user.username});
     }else{
         req.session.error = "请先登录";
-        req.session.frompage = "performance/android/report";
+        req.session.frompage = "from=performance/android/report";
         res.redirect("/login?"+req.session.frompage);
         // res.send(404)
     }
