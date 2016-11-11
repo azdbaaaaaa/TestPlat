@@ -32,30 +32,32 @@
 		          	<ul class="nav navbar-nav">
 			          	<li class="active"><a href="/">首页</a></li>
 			            <li class="dropdown">
-			            	<!-- <a href="/report">报告预览</a> -->
-			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">性能测试 <span class="caret"></span></a>
+			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Android性能测试 <span class="caret"></span></a>
 			            	<ul class="dropdown-menu" role="menu">
-	            	            <li><a href="/performance/android">Android 性能测试</a></li>
-	            	            <li><a href="/performance/android/report">Android 性能测试报告预览</a></li>
-	            	            <li class="divider"></li>
-	            	            <li><a href="/performance/ios">iOS 性能测试</a></li>
-	            	            <li><a href="/performance/ios/report">iOS 性能测试报告预览</a></li>
+	            	            <li><a href="/performance/android">Monkey稳定性测试</a></li>
+	            	            <li><a href="/performance/android/report">Monkey稳定性测试-报告</a></li>
 	            	            <li class="divider"></li>
 	            	            <li><a href="#">One more separated link</a></li>
             	          	</ul>
 			            </li>
-			            <li><a href="/apiRecordTest/">接口测试</a></li>
-	<!-- 		            <li><a href="#">iOS性能测试</a></li>
-			            <li><a href="#" target="_blank">Android性能测试</a></li> -->
-			            <li><a href="#" target="_blank">自动化测试</a></li>
-			            <li><a href="/home/">home页面</a></li>
+			            <li class="dropdown">
+			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">iOS性能测试 <span class="caret"></span></a>
+			            	<ul class="dropdown-menu" role="menu">
+	            	            <li><a href="/performance/android">Monkey稳定性测试</a></li>
+	            	            <li><a href="/performance/android/report">Monkey稳定性测试-报告</a></li>
+	            	            <li class="divider"></li>
+	            	            <li><a href="#">One more separated link</a></li>
+            	          	</ul>
+			            </li>		            
+			            <li><a href="/apiReplyResult/">接口回放测试</a></li>
+			            <li><a href="#" target="_blank">自动化测试（block）</a></li>
+			            <li><a href="/home/">home页面（block）</a></li>
 		          	</ul>
 		          	<ul class="nav navbar-nav navbar-right hidden" id="logout">
 				        <p class="navbar-text">Signed in as <strong style="color:green"><%= username%></strong></p>
 				        <a type="button" class="navbar-nav btn btn-danger navbar-btn" href="/logout">
 				        	退出登录
 				        </a>
-		          		<!-- <li><a id="logout" class="hidden" href="/logout">Signed in as <strong style="color:green"><%= username%></strong>,退出</a></li> -->
 		            </ul>
 		        </div>
 		    </div>

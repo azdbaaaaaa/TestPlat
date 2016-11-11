@@ -50,62 +50,72 @@ router.get('/', function(req, res) {
     }
 });
 
-/* GET apiTest page. */
-router.get('/apiRecordTest', function(req, res) {
-  console.log(req.query.result);
+
+
+/* GET apiReplyResult page. */
+router.get('/apiReplyResult', function(req, res) {
     if  (!req.query.Iter) {
-      util.ApiRecordResultModel.find({},{"Iter": 1, "_id": 0}, function (err, docs) {
-        if (err) return handleError(err);
-        req.query.Iter = docs[0].Iter;
-        util.ApiRecordResultModel.count({"Iter":req.query.Iter}, function (err, docs) {
-          if (err) return handleError(err);
-          var totalCount = docs;
-          util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Pass"}, function (err, docs) {
-            if (err) return handleError(err);
-            var passCount = docs;
-            util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Fail"}, function (err, docs) {
-              if (err) return handleError(err);
-              var failCount = docs;
-              util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Exception"}, function (err, docs) {
-                if (err) return handleError(err);
-                var exceptionCount = docs;
-                // util.ApiRecordResultModel.find({"Iter":req.query.Iter})
-                if (req.session.user) {
-                    res.render('apiRecordTest', { title: '接口回放测试结果页',
-                                                  Iter: req.query.Iter,
-                                                  is_login: true,
-                                                  totalCount: totalCount,
-                                                  passCount: passCount,
-                                                  failCount: failCount,
-                                                  exceptionCount: exceptionCount,
-                                                  username: req.session.user.username});
-                }else{
-                    req.session.error = "请先登录";
-                    req.session.frompage = "from=apiRecordTest";
-                    res.redirect("/login?"+req.session.frompage);
-                }
-              });
-            });
-          });
-        });
-      }).sort({Iter: -1}).limit(1);
+          if (req.session.user) {
+              res.render('apitest/apiReplyResultSummary', { title: '接口回放测试结果汇总页',
+                                            is_login: true,
+                                            username: req.session.user.username});
+          }else{
+              req.session.error = "请先登录";
+              req.session.frompage = "from=apiReplyResult";
+              res.redirect("/login?"+req.session.frompage);
+          };
+      // util.ApiReplyRecordModel.find({},{"Iter": 1, "_id": 0}, function (err, docs) {
+      //   if (err) return handleError(err);
+      //   req.query.Iter = docs[0].Iter;
+      //   util.ApiReplyRecordModel.count({"Iter":req.query.Iter}, function (err, docs) {
+      //     if (err) return handleError(err);
+      //     var totalCount = docs;
+      //     util.ApiReplyRecordModel.count({"Iter":req.query.Iter,"result":"Pass"}, function (err, docs) {
+      //       if (err) return handleError(err);
+      //       var passCount = docs;
+      //       util.ApiReplyRecordModel.count({"Iter":req.query.Iter,"result":"Fail"}, function (err, docs) {
+      //         if (err) return handleError(err);
+      //         var failCount = docs;
+      //         util.ApiReplyRecordModel.count({"Iter":req.query.Iter,"result":"Exception"}, function (err, docs) {
+      //           if (err) return handleError(err);
+      //           var exceptionCount = docs;
+      //           // util.ApiReplyRecordModel.find({"Iter":req.query.Iter})
+      //           if (req.session.user) {
+      //               res.render('apitest/apiReplyResult', { title: '接口回放测试结果页',
+      //                                             Iter: req.query.Iter,
+      //                                             is_login: true,
+      //                                             totalCount: totalCount,
+      //                                             passCount: passCount,
+      //                                             failCount: failCount,
+      //                                             exceptionCount: exceptionCount,
+      //                                             username: req.session.user.username});
+      //           }else{
+      //               req.session.error = "请先登录";
+      //               req.session.frompage = "from=apiReplyResult";
+      //               res.redirect("/login?"+req.session.frompage);
+      //           }
+      //         });
+      //       });
+      //     });
+      //   });
+      // }).sort({Iter: -1}).limit(1);
     } else {
-      util.ApiRecordResultModel.count({"Iter":req.query.Iter}, function (err, docs) {
+      util.ApiReplyRecordModel.count({"Iter":req.query.Iter}, function (err, docs) {
         if (err) return handleError(err);
         var totalCount = docs;
         // console.log(docs);
         // console.log(req.query.Iter);
-        util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Pass"}, function (err, docs) {
+        util.ApiReplyRecordModel.count({"Iter":req.query.Iter,"result":"Pass"}, function (err, docs) {
           if (err) return handleError(err);
           var passCount = docs;
-          util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Fail"}, function (err, docs) {
+          util.ApiReplyRecordModel.count({"Iter":req.query.Iter,"result":"Fail"}, function (err, docs) {
             if (err) return handleError(err);
             var failCount = docs;
-            util.ApiRecordResultModel.count({"Iter":req.query.Iter,"result":"Exception"}, function (err, docs) {
+            util.ApiReplyRecordModel.count({"Iter":req.query.Iter,"result":"Exception"}, function (err, docs) {
               if (err) return handleError(err);
               var exceptionCount = docs;
               if (req.session.user) {
-                  res.render('apiRecordTest', { title: '接口回放测试结果页',
+                  res.render('apitest/apiReplyResult', { title: '接口回放测试结果页',
                                                 Iter: req.query.Iter,
                                                 is_login: true,
                                                 totalCount: totalCount,
@@ -115,7 +125,7 @@ router.get('/apiRecordTest', function(req, res) {
                                                 username: req.session.user.username});
               }else{
                   req.session.error = "请先登录";
-                  req.session.frompage = "from=apiRecordTest";
+                  req.session.frompage = "from=apiReplyResult";
                   res.redirect("/login?"+req.session.frompage);
               }
             });
@@ -124,6 +134,15 @@ router.get('/apiRecordTest', function(req, res) {
       });
     };
 });
+
+
+// /* GET apiReplyResult page. */
+// router.get('/apiReplyResult', function(req, res) {
+//     res.render('login', { title: 'login'});
+// });
+
+
+
 
 /* GET login page. */
 router.get('/login', function(req, res) {

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title><%= title %></title>
+		<script src="/jquery/dist/jquery.min.js"></script>
+		<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/bootstrap-table/dist/bootstrap-table.min.js"></script>
+
+		<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="/bootstrap-table/dist/bootstrap-table.min.css">
+
+		<script type="text/javascript" src="/bootstrap-paginator/src/bootstrap-paginator.js"></script>
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		    <div class="container">
+		        <div class="navbar-header navbar-left">
+		          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand hidden-sm" href="#">移动测试平台</a>
+		        </div>
+		        <div class="navbar-collapse collapse" role="navigation">
+		          	<ul class="nav navbar-nav">
+			          	<li class="active"><a href="/">首页</a></li>
+			            <li class="dropdown">
+			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Android性能测试 <span class="caret"></span></a>
+			            	<ul class="dropdown-menu" role="menu">
+	            	            <li><a href="/performance/android">Monkey稳定性测试</a></li>
+	            	            <li><a href="/performance/android/report">Monkey稳定性测试-报告</a></li>
+	            	            <li class="divider"></li>
+	            	            <li><a href="#">One more separated link</a></li>
+            	          	</ul>
+			            </li>
+			            <li class="dropdown">
+			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">iOS性能测试 <span class="caret"></span></a>
+			            	<ul class="dropdown-menu" role="menu">
+	            	            <li><a href="/performance/android">Monkey稳定性测试</a></li>
+	            	            <li><a href="/performance/android/report">Monkey稳定性测试-报告</a></li>
+	            	            <li class="divider"></li>
+	            	            <li><a href="#">One more separated link</a></li>
+            	          	</ul>
+			            </li>		            
+			            <li><a href="/apiReplyResult/">接口回放测试</a></li>
+			            <li><a href="#" target="_blank">自动化测试（offline）</a></li>
+			            <li><a href="/home/">home页面（offline）</a></li>
+		          	</ul>
+		          	<ul class="nav navbar-nav navbar-right hidden" id="logout">
+				        <p class="navbar-text">Signed in as <strong style="color:green"><%= username%></strong></p>
+				        <a type="button" class="navbar-nav btn btn-danger navbar-btn" href="/logout">
+				        	退出登录
+				        </a>
+		            </ul>
+		        </div>
+		    </div>
+		</div>
+		<div style="padding-top: 80px;">
+		<h1>第<span id="Iter"><%= Iter %></span>次运行结果汇总</h1>
+			<table class="table table-bordered">
+				<tr>
+					<th>全部请求数</th>
+					<th>通过请求数</th>
+					<th>失败请求数</th>
+					<th>异常请求数</th>
+				</tr>
+				<tr>
+					<td><a id="totalCount"><%= totalCount %></a></td>
+					<td><a href="javascript:void(0);" id="passCount"><%= passCount %></a></td>
+					<td><a href="javascript:void(0);" id="failCount"><%= failCount %></a></td>
+					<td><a href="javascript:void(0);" id="exceptionCount"><%= exceptionCount %></a></td>
+				</tr>
+			</table>
+		</div>
+		<div style="padding-top: 10px;padding-bottom: 100px" id="table-container">
+			<table id="table"></table>
+		</div>
+		
+	</body>
+
+	<script type="text/javascript">
+		if (<%= is_login%>) {
+			$('#logout').removeClass('hidden');
+		}
+	</script>
+	<script type="text/javascript">
+	function getData(json) {
+		console.log(json);
+		$('#table-container').children().remove();
+		$('#table-container').append('<table id="table"></table>');
+		$('#table').bootstrapTable({
+			columns: [{
+			        field: 'id',
+			        title: 'ID'
+			    }, {
+			        field: 'requests.protocol',
+			        title: '协议'
+			    }, {
+			        field: 'requests.method',
+			        title: '方法'
+			    }, {
+			        field: 'requests.host',
+			        title: '域名'
+			    }, {
+			        field: 'requests.path',
+			        title: '路径'
+			    }, {
+			        field: 'origin.mime',
+			        title: 'mime类型'
+			    },{
+			        field: 'requests.statusCode',
+			        title: '返回码'
+			    },{
+			        field: 'requests.duration',
+			        title: '响应时间（微秒）'
+			    }, {
+			        field: 'result',
+			        title: '断言结果'
+			    }, {
+			        field: 'desc',
+			        title: '断言描述'
+			    }],
+		    url: "/api/getApiReplyRecord",  
+	        sortName: "id",//排序列  
+	        striped: true,//條紋行  
+	        // sidePagination: "server",//服务器分页  
+	        showRefresh: true,//刷新功能  
+	        search: true,//搜索功能  
+	        // clickToSelect: true,//选择行即选择checkbox  
+	        // singleSelect: true,//仅允许单选  
+	        searchOnEnterKey: true,//ENTER键搜索  
+	        pagination: true,//启用分页  
+	        escape: true,//过滤危险字符  
+	        queryParams: json,//携带参数  
+	        // pageCount: 15,//每页行数  
+	        // pageIndex: 0,//起始页  
+	        method: "get",//请求格式  
+	        // toolbar: "#toolBar",  
+	        onPageChange: function (number, size) {  
+	            currPageIndex = number;  
+	            currLimit = size  
+	        },  
+	        onLoadSuccess: function ()  
+	        {  
+	            $("#searchBtn").button('reset');
+	        },
+	        onClickRow: function (row, $element) {
+	        	$(".temp").remove();
+	        	$element.append('<button type="button" class="temp btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display:none;" id="clickB">\
+	  								Launch demo modal\
+								</button>')
+	        	$element.append('<div class="temp modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\
+	        						<div class="modal-dialog modal-lg">\
+	        							<div class="modal-content">\
+	        								<div class="modal-header">\
+	        									<h4 class="modal-title" id="myModalLabel">详细请求信息</h4>\
+	        								</div>\
+	        								<div class="modal-body">\
+		        								<label>Request HEADER:</label>\
+		        								<div id="reqHeader"></div>\
+	        									<label>Request URL:</label>\
+	        									<p style="word-break:break-all">'+ row.requests.url +'</p>\
+	        									<HR>\
+	        									<label>Response HEADER:</label>\
+	        									<div id="resHeader"></div>\
+	        									<label>Response BODY:</label>\
+	        									<div><textarea class="form-control" rows="5" style="word-break:break-all">'+ row.requests.resBody +'</textarea></div>\
+	        								</div>\
+	        								<div class="modal-footer">\
+	        									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\
+	        								</div>\
+	      								</div>\
+	        						</div>\
+	        					</div>')
+	        	$.each(row.requests.reqHeader,function(name,value) {
+	        		$('#reqHeader').append('<div>\
+	        									<span style="word-break:break-all">'+ name +': </span>\
+	        						 			<span style="word-break:break-all">'+ value +'</span>\
+	        						 		</div>')
+	        	});
+	        	$.each(row.requests.resHeader,function(name,value) {
+	        		$('#resHeader').append('<div>\
+	        									<span style="word-break:break-all">'+ name +': </span>\
+	        						 			<span style="word-break:break-all">'+ value +'</span>\
+	        						 		</div>')
+	        	});
+	        	$('#clickB').click();
+	        }
+		});
+	};
+
+	getData({"Iter": $('#Iter').text()});
+
+	$("#totalCount").click(function() {
+		getData({"Iter": $('#Iter').text()});
+	});
+	$("#passCount").click(function() {
+		getData({"Iter": $('#Iter').text(), "result": "Pass"});
+	});
+	$("#failCount").click(function() {
+		getData({"Iter": $('#Iter').text(), "result": "Fail"});
+	});
+	$("#exceptionCount").click(function() {
+		getData({"Iter": $('#Iter').text(), "result": "Exception"});
+	});
+	// function getApiReplyResult(query) {
+	// 	$('#tableHead').siblings().empty();
+	// 	$.ajax({
+	// 		  url: '/api/getApiReplyResult',
+	// 		  data: query,
+	// 		  type: 'get',
+	// 		  success: function (data, status) {
+	// 		    if (status == 'success' && data.success == true) {
+	// 		      for (var i = 0; i < data.data.length; i++) {
+	// 		      	if (data.data[i].result == "Pass") {
+	// 		      		color = "success"
+	// 		      	} else if (data.data[i].result == "Fail") {
+	// 		      		color = "danger"
+	// 		      	} else {
+	// 		      		color = "warning"
+	// 		      	}
+	// 		        $('#record').append(
+	// 		        	"<tr class='" + color + "'>" +
+	// 		        	"<td>" + data.data[i].id + "</td>" +
+	// 		        	"<td>" + data.data[i].requests.protocol + "</td>" +
+	// 		        	"<td>" + data.data[i].requests.method + "</td>" +
+	// 		        	"<td>" + data.data[i].requests.host + "</td>" +
+	// 		        	"<td>" + data.data[i].requests.path + "</td>" +
+	// 		        	"<td>" + data.data[i].requests.statusCode + "</td>" +
+	// 		        	"<td>" + data.data[i].result + "</td>" + 
+	// 		        	"<td>" + data.data[i].desc + "</td>" +
+	// 		        	"</tr>");
+	// 		        // $('');
+	// 		      };
+	// 		    }
+	// 		  }
+	// 		});
+	// };
+
+	// var options = {
+	//     alignment:"center",//居中显示
+	//     currentPage: 1,//当前页数
+	//     totalPages: 10,//总页数 注意不是总条数
+	//     pageUrl: function(type, page, current){
+	//             if (page==current) {
+	//                 return "javascript:void(0)";
+	//             } else {
+	//                 return "/api/getApiReplyResult?page="+page;
+	//             }
+	//         }
+	// }
+	// $("#pagintor").bootstrapPaginator(options);// $("#pagintor") Bootstrap 是2.X 使用div元素，3.X使用ul元素
+	</script>
+</html>
