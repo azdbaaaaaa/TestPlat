@@ -55,19 +55,7 @@
                               <li><a href="#">One more separated link</a></li>
                             </ul>
                     </li>               
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">接口测试 <span class="caret"></a>
-                    <ul class="dropdown-menu" role="menu">
-                      <li>
-                        <a href="/api/runApiReply">执行接口回放测试</a>
-                      </li>
-                      <li>
-                        <a href="/apiReplyResult/">接口回放测试报告</a>
-                      </li>
-                      <li class="divider"></li>
-                      <li><a href="#">One more separated link</a></li>
-                    </ul>
-                  </li>
+                    <li><a href="/apitest/">接口测试</a></li>
                     <li><a href="#" target="_blank">自动化测试（block）</a></li>
                     <li><a href="/home/">home页面（block）</a></li>
                   </ul>
@@ -85,6 +73,19 @@
     <div class="container" style="padding-top:100px">
       <div class="panel panel-primary">
       <div class="panel-body">
+        <div class="col-lg-6">
+          <div class="thumbnail">
+            <img src="/static/images/csfw_14.png" alt="...">
+            <div class="caption">
+              <h3>接口回放测试</h3>
+              <p>根据录制的接口进行回放测试</p>
+              <p>
+                <a class="btn btn-info" role="button" onclick="alert('开始测试,点击查看报告查看结果');runApiReplyTest();">开始测试</a>
+                <a href="/apiReplyResult/" class="btn btn-info" role="button">查看报告</a> 
+              </p>
+            </div>
+          </div>
+        </div>
         <div class="col-lg-6">
           <div class="thumbnail">
             <img src="/static/images/csfw_14.png" alt="...">
@@ -117,18 +118,6 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div class="thumbnail">
-            <img src="/static/images/csfw_14.png" alt="...">
-            <div class="caption">
-              <h3>XSS接口扫描</h3>
-              <p>...</p>
-              <p>
-                <a href="#" class="btn btn-info" role="button">Button</a> 
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="panel-footer">
         bbb
@@ -138,6 +127,19 @@
 
   </body>
   <script type="text/javascript">
+    function runApiReplyTest() {
+      $.ajax({
+        url: '/api/runApiReply',
+        type: 'get',
+        success: function (data, status) {
+          if (status == 'success' && data.success == true) {
+            console.log("success");
+          }
+        }
+      })
+    };
+
+
     // 对文件上传控件#input进行配置
     $('#input').fileinput({
                     // showUpload: false,
