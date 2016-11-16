@@ -18,8 +18,8 @@ router.get('/getApiReplyRecord', function(req, res) {
   		var Iter = req.query.Iter; 
   		if (req.query.result) {
   			var result = req.query.result;
-        console.log(Iter);
-        console.log(result);
+        // console.log(Iter);
+        // console.log(result);
         // util.UsersModel.find({username:"jimmy",password:"qq123456"}, function (err, docs) {
         //   console.log(docs);
         // });
@@ -32,7 +32,7 @@ router.get('/getApiReplyRecord', function(req, res) {
   				});
   			}).sort({"id": 1});
   		} else {
-        console.log(Iter);
+        // console.log(Iter);
   			util.ApiReplyRecordModel.find({"Iter": Iter}, function (err, docs) {
   				if (err) return handleError(err);
   				res.send({
@@ -55,13 +55,27 @@ router.get('/getApiReplyRecord', function(req, res) {
 router.get('/getApiReplySummary', function(req, res) {
     util.ApiReplysummaryModel.find({}, function (err, docs){
       if (err) return handleError(err);
-      console.log(docs);
+      // console.log(docs);
       res.send({
         message: '获取成功',
         success: true,
         data: docs, 
       });
-    });
+    }).sort({"Iter": -1});
+});
+
+/* GET apiRecordResultSummary list */
+router.get('/runApiReply', function(req, res) {
+  console.log('running api reply...');
+  // res.send('running api reply...');
+  var exec = require('child_process').exec,
+      // last = exec('ls -al');
+      last = exec('python C:\\Users\\zhoudonbin\\Documents\\GitHub\\RequestRecord\\reply.py -i C:\\Users\\zhoudonbin\\Documents\\GitHub\\RequestRecord\\test01.log');
+
+  last.on('exit', function (code) {
+    // console.log(code);
+    res.send('return code:' + code);
+  });
 });
 
 module.exports = router;

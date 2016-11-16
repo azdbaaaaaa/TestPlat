@@ -55,7 +55,19 @@
                               <li><a href="#">One more separated link</a></li>
                             </ul>
                     </li>               
-                    <li><a href="/apiReplyResult/">接口回放测试</a></li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">接口测试 <span class="caret"></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li>
+                        <a href="/api/runApiReply">执行接口回放测试</a>
+                      </li>
+                      <li>
+                        <a href="/apiReplyResult/">接口回放测试报告</a>
+                      </li>
+                      <li class="divider"></li>
+                      <li><a href="#">One more separated link</a></li>
+                    </ul>
+                  </li>
                     <li><a href="#" target="_blank">自动化测试（block）</a></li>
                     <li><a href="/home/">home页面（block）</a></li>
                   </ul>
@@ -70,7 +82,7 @@
       </div>
 
     <!-- Nav tabs -->
-    <div class="container">
+    <div class="container" style="padding-top: 80px">
         <ul class="nav nav-pills" role="tablist" id="tab">
           <li role="presentation" id="step1" class="active" ><a href="#selectServiceTab">1.选择服务</a></li>
           <li role="presentation" id="step2"><a href="#selectApkTab">2.选择应用</a></li>
