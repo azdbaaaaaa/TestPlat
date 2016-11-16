@@ -4,6 +4,11 @@ var session = require('express-session');
 var assert = require('assert');
 var util = require('./utils/util');
 
+// 跳转到sqlmap页面
+router.get('/sqlmap', function (req, res) {
+    res.render('apitest/sqlmap', { title: '首页', is_login: true, username: null});
+});
+
 // 通过entity查询数据
 router.get('/query', function (req, res) {
   var data1 = {

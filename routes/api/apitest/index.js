@@ -78,4 +78,33 @@ router.get('/runApiReply', function(req, res) {
   });
 });
 
+/* POST sqlmap file */
+router.post('/uploadSqlmapFile', function(req, res) {
+  // console.log(req.multipart);
+  //创建表单上传
+    var form = new formidable.IncomingForm();
+    //设置编辑
+    form.encoding = 'utf-8';
+    //设置文件存储路径
+    form.uploadDir = "../Files/sqlmaps/";
+    //保留后缀
+    form.keepExtensions = true;
+    //设置单文件大小限制    
+    form.maxFieldsSize = 50 * 1024 * 1024;
+    //form.maxFields = 1000;  设置所有文件的大小总和
+
+    form.parse(req, function(err, fields, files) {
+      // res.writeHead(200, {'content-type': 'text/plain'});
+      // res.write('received upload:\n\n');
+      // res.end(util.inspect({fields: fields, files: files}));
+      // console.log(files);
+      var data = {
+        apkName: files.file_data.name,
+        apkPath: files.file_data.path,
+        apkSize: files.file_data.size,
+      };
+      res.send({message: '上传成功', success: true});
+    });
+});
+
 module.exports = router;
