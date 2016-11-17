@@ -80,7 +80,7 @@
               <h3>接口回放测试</h3>
               <p>根据录制的接口进行回放测试</p>
               <p>
-                <a class="btn btn-info" role="button" onclick="alert('开始测试,点击查看报告查看结果');runApiReplyTest();">开始测试</a>
+                <a class="btn btn-info" role="button" onclick="runApiReplyTest();">开始测试</a>
                 <a href="/apiReplyResult/" class="btn btn-info" role="button">查看报告</a> 
               </p>
             </div>
@@ -133,10 +133,13 @@
         type: 'get',
         success: function (data, status) {
           if (status == 'success' && data.success == true) {
-            console.log("success");
-          }
+            alert("执行成功");
+            // console.log("success");
+          } else {
+            alert("执行失败，请重试");
+          };
         }
-      })
+      });
     };
 
 

@@ -73,8 +73,11 @@ router.get('/runApiReply', function(req, res) {
       last = exec('python C:\\Users\\zhoudonbin\\Documents\\GitHub\\RequestRecord\\reply.py -i C:\\Users\\zhoudonbin\\Documents\\GitHub\\RequestRecord\\test01.log');
 
   last.on('exit', function (code) {
-    // console.log(code);
-    res.send('return code:' + code);
+    if (code == 0) {
+      res.send({"message":"执行成功", success: true})
+    } else {
+      res.send({"message":"执行失败，请重试", success: false});
+    }
   });
 });
 
