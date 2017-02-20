@@ -14,7 +14,7 @@ router.post('/uploadApk', function(req, res) {
     //设置编辑
     form.encoding = 'utf-8';
     //设置文件存储路径
-    form.uploadDir = "../packages/apks/";
+    form.uploadDir = "../Files/apks/";
     //保留后缀
     form.keepExtensions = true;
     //设置单文件大小限制    

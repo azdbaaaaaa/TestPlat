@@ -10,6 +10,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var performance_android = require('./routes/performance/android/index');
 var api_performance_android = require('./routes/api/performance/android/index');
+var apitest = require('./routes/api/apitest/index')
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/', performance_android);
 app.use('/api', api_performance_android);
+app.use('/api', apitest);
 app.use('/admin', users);
 
 //handle session
